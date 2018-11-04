@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="css/bootstrap.css">
+		<link rel="stylesheet" href="css/bootstrap-table.css">
+		<script src="js/jquery.min.js"></script>
+		<script src="js/bootstrap.bundle.js"></script>
+		<script src="js/bootstrap-table.js"></script>
+
+		<script src="depsData.js"></script>
+		<script src="sizeData.js"></script>
+		<script>
+			$(function () {
+				$('#table').bootstrapTable({
+					data: dataInclude,
+					locale: "en-US",
+					detailView: true,
+					detailFormatter: detailFormatter,
+					pagination: true,
+					pageList: [10, 25, 50, 100, 500, "All"],
+				});
+			});
+			function detailFormatter(index, row) {
+				return row.deps;
+			}
+			$(function () {
+				$('#table2').bootstrapTable({
+					data: dataIncluded,
+					locale: "en-US",
+					detailView: true,
+					detailFormatter: detailFormatter2,
+					pagination: true,
+					pageList: [10, 25, 50, 100, 500, "All"],
+				});
+			});
+			function detailFormatter2(index, row) {
+				return row.objs;
+			}
+			$(function () {
+				$('#table3').bootstrapTable({
+					data: dataCodeSize,
+					locale: "en-US",
+					detailView: false,
+					pagination: true,
+					pageList: [10, 25, 50, 100, 500, "All"],
+				});
+			})
+            function runningFormatter(value, row, index) {
+                return index;
+            };
+		</script>
+		<script>
+			function openTab(evt, cityName) {
+				var i, tabcontent, tablinks;
+				tabcontent = document.getElementsByClassName("tabcontent");
+				for (i = 0; i < tabcontent.length; i++) {
+					tabcontent[i].style.display = "none";
+				}
+				tablinks = document.getElementsByClassName("tablinks");
+				for (i = 0; i < tablinks.length; i++) {
+					tablinks[i].className = tablinks[i].className.replace(" active", "");
+				}
+				document.getElementById(cityName).style.display = "block";
+				evt.currentTarget.className += " active";
+			}
+		</script>
+		<style>
+			/* Style the tab */
+			.tab {
+				overflow: hidden;
+				border: 1px solid #ccc;
+				background-color: #f1f1f1;
+			}
+
+			/* Style the buttons inside the tab */
+			.tab button {
+				background-color: inherit;
+				float: left;
+				border: none;
+				outline: none;
+				cursor: pointer;
+				padding: 14px 16px;
+				transition: 0.3s;
+				font-size: 17px;
+			}
+
+			/* Change background color of buttons on hover */
+			.tab button:hover {
+				background-color: #ddd;
+			}
+
+			/* Create an active/current tablink class */
+			.tab button.active {
+				background-color: #ccc;
+			}
+
+			/* Style the tab content */
+			.tabcontent {
+				display: none;
+				padding: 6px 12px;
+				border: 1px solid #ccc;
+				border-top: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="tab">
+			<button class="tablinks" onclick="openTab(event, 'ByObjs')">By objs</button>
+			<button class="tablinks" onclick="openTab(event, 'ByHeader')">By header</button>
+			<button class="tablinks" onclick="openTab(event, 'CodeSize')">Code size</button>
+		</div>
+		<div id="ByObjs" class="tabcontent">
+			<table
+				id="table"
+				data-detail-view="true"
+				data-detail-formatter="detailFormatter"
+				data-search="true"
+				>
+				<thead>
+					<tr>
+						<th data-formatter="runningFormatter">Index</th>
+						<th data-field="obj" data-sortable="true">Object file</th>
+						<th data-field="depsLen" data-sortable="true">Num of dependency</th>
+						<th data-field="deps" data-visible="false" data-searchable="false">Dependency</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<div id="ByHeader" class="tabcontent">
+			<table
+				id="table2"
+				data-detail-view="true"
+				data-detail-formatter="detailFormatter"
+				data-search="true"
+				>
+				<thead>
+					<tr>
+						<th data-formatter="runningFormatter">Index</th>
+						<th data-field="header" data-sortable="true">Header</th>
+						<th data-field="objsLen" data-sortable="true">Num of object</th>
+						<th data-field="objs" data-visible="false" data-searchable="false">Objects files</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<div id="CodeSize" class="tabcontent">
+			<table
+				id="table3"
+				data-detail-view="true"
+				data-detail-formatter="detailFormatter"
+				data-search="true"
+				>
+				<thead>
+					<tr>
+						<th data-formatter="runningFormatter">Index</th>
+						<th data-field="symbol" data-sortable="true">Header</th>
+						<th data-field="size" data-sortable="true">Num of object</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</body>
+</html>
